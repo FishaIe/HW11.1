@@ -13,13 +13,28 @@ public class ProductRepository {
     public void removeById(int id) {
         Product[] tmp = new Product[items.length - 1];
         int copyToIndex = 0;
-        for (Product item : items) {
-            if (item.getId() != id) {
-                tmp[copyToIndex] = item;
-                copyToIndex++;
+        if (findById(id) != null) {
+            for (Product item : items) {
+                if (item.getId() != id) {
+                    tmp[copyToIndex] = item;
+                    copyToIndex++;
+                }
             }
+        } else {
+            throw new NotFoundException(
+                    "Элемент с id: \" + id + \" не найден"
+            );
         }
         items = tmp;
+    }
+
+    public Product findById(int id) {
+        for (Product item : items) {
+            if (item.getId() == id) {
+                return item;
+            }
+        }
+        return null;
     }
 
     public Product[] getItems() {

@@ -19,12 +19,28 @@ public class ProductRepositoryTest {
         repo.save(item2);
         repo.save(item3);
         repo.save(item4);
-        repo.removeById(item2.getId());
+        repo.removeById(item3.getId());
 
-        Product[] expected = {item1, item3, item4};
+        Product[] expected = {item1, item2, item4};
         Product[] actual = repo.getItems();
 
         Assertions.assertArrayEquals(expected, actual);
+
+    }
+
+    @Test
+    public void removeByIdErrorTest() {
+
+        ProductRepository repo = new ProductRepository();
+
+        repo.save(item1);
+        repo.save(item2);
+        repo.save(item3);
+        repo.save(item4);
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            repo.removeById(32);
+        });
 
     }
 
